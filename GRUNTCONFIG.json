@@ -1,0 +1,8 @@
+{
+    "UAT":{
+        "staticDomain":"http://staticuat.pkmyself.com"
+    },
+    "PRODUCTION":{
+        "staticDomain":"http://static.pkmyself.com"
+    }
+}

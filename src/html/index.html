@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--配置SSI include失败时的提示内容,设置默认为空-->
+    <!--#block name="file_not_found"--><!--#endblock-->
+
+    <!--设置构建时的环境变量-->
+    <!--#set var="environment" value="GruntEnvironment"--> 
+
+    <!--#if expr="$environment=/UAT|PRODUCTION/"-->
+        <!--设置当前页面在UAT和生产环境下需要引用其他项目输出的变量碎片,本地开发环境没必要引用-->
+        <!--#include file="/project1/inc/project1.inc" stub="file_not_found"-->
+        <!--#include file="/project2/inc/project2.inc" stub="file_not_found"-->
+    <!--#endif-->
+
+    <meta charset="UTF-8">
+    <title>前端工程化构建模板</title>
+
+
+    <!--#if expr="$environment!=/UAT|PRODUCTION/"-->
+        <!--本地环境CSS引用地址-->
+        <!--#include file="inc/css.inc" stub="file_not_found"-->
+    <!--#else-->
+        <!--UAT&生产环境CSS引用地址-->
+        <!--#include file="/fengine/inc/css.inc" stub="file_not_found"-->
+    <!--#endif-->
+</head>
+<body>
+    <!--#if expr="$environment!=/UAT|PRODUCTION/"-->
+        <!--本地环境静态碎片地址-->
+        <!--#include file="inc/html.inc" stub="file_not_found"-->
+    <!--#else-->
+        <!--UAT&生产环境静态碎片引用地址-->
+        <!--#include file="/fengine/inc/html.inc" stub="file_not_found"-->
+    <!--#endif-->
+
+
+
+    <!--#if expr="$environment!=/UAT|PRODUCTION/"-->
+        <!--本地环境JS引用地址-->
+        <!--#include file="inc/script.inc" stub="file_not_found"-->
+    <!--#else-->
+        <!--UAT&生产环境JS引用地址-->
+        <!--#include file="/fengine/inc/script.inc" stub="file_not_found"-->
+    <!--#endif-->
+</body>
+</html>
