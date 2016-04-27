@@ -15,4 +15,35 @@
 
 # 解决方案
 
-碎片化管理
+#### 碎片化管理
+
+对于静态资源来说，Nginx绝对是当前最好的选择:
+
+* 开启SSI，通过include方式，可以在任何html页面引用其他碎片文件(html,inc等);
+    <!--#include file="inc/header.inc" -->
+* 开启concat模块，可以自动的将多个css文件或js文件放在一次请求里面合并输出;
+    <script type="text/javascript" src="http://static.pkmyself.com/??dir1/js/a.js,dir2/b.js"></script>
+
+这样我们可以要求任何前端项目，在构建发布时都要生成一个碎片文件，这个文件里面包含发布后静态资源(JS/CSS)的相对路径,其他项目在引用时，可以通过include的方式引用。
+
+以搜索为例，构建时生成如下一个碎片文件search.inc(**set是nginx ssi模块设置变量的方法,可以在其他地方通过echo的方式输出这些变量**)
+
+    <!--#set var="searchcss" value="/search/1.0.0/css/search.css"-->
+    <!--#set var="searchjs" value="/search/1.0.0/js/search.js"-->
+
+当我们首页需要引用时，可以通过include的方式引用这个碎片文件,而在需要的地方输出（echo）对应的文件的路径
+
+    <!--#include file="serch.inc" -->
+    <script type="text/javascript" src="http://static.pkmyself.com/??<!--echo name="searchjs" -->"></script>
+
+这样以来，不管其他项目如何构建改变文件版本或类型，引用页面均不需要改变配置文件重新发发版，最多需要做的可能就是刷一下CDN而已。
+
+# 模板
+
+这个项目是针对以上解决方案的具体实现，包含多环境发布的基本构建，可以作为标准模板使用。
+
+#### 环境要求
+
+Tengine，开启ssi，concat模块，修改mime.types，增加text/html的inc支持:`text/html                   html htm shtml inc;`
+
+
