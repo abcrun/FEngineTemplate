@@ -52,4 +52,3 @@
 
 Tengine，开启ssi，concat模块，修改mime.types，增加text/html的inc支持:`text/html                   html htm shtml inc;`
 
-
