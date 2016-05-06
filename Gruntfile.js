@@ -1,10 +1,14 @@
 module.exports = function(grunt) {
-    var date = new Date(),m = date.getMonth() + 1,d = date.getDate();
-    if(m < 10) m = '0' + m;
-    if(d < 10) d = '0' + d;
-    var time = '' + date.getFullYear() + m + d;
-	var pkg = grunt.file.readJSON('package.json'),$GRUNTCONFIG = grunt.file.readJSON('GRUNTCONFIG.json');
-	var version = pkg.version, name = pkg.name + '_' + time + '_' + version;
+	var date = new Date(),
+	m = date.getMonth() + 1,
+	d = date.getDate();
+	if (m < 10) m = '0' + m;
+	if (d < 10) d = '0' + d;
+	var time = '' + date.getFullYear() + m + d;
+	var pkg = grunt.file.readJSON('package.json'),
+	$GRUNTCONFIG = grunt.file.readJSON('GRUNTCONFIG.json');
+	var version = pkg.version,
+	name = pkg.name + '_' + time + '_' + version;
 
 	// 构建任务配置
 	grunt.initConfig({
@@ -71,17 +75,11 @@ module.exports = function(grunt) {
 		},
 		shell: {
 			tar: {
-				command: [
-                    'mkdir -p dist/archive',
-                    'cd dist/archive', 
-                    'zip -r ' + name + '.zip ../html', 
-                    'zip -r static-' + name + '.zip ../' + version + ' ../build.js', 
-                    'tar -czvf' + name + '.tgz *.zip'
-                ].join('&&')
+				command: ['mkdir -p dist/archive', 'cd dist/archive', 'zip -r ' + name + '.zip ../html', 'zip -r static-' + name + '.zip ../' + version + ' ../build.js', 'tar -czvf' + name + '.tgz *.zip'].join('&&')
 			},
-            scp :{
-                command: ''//Move tar to different server
-            }
+			scp: {
+				command: '' //Move tar to different server
+			}
 		}
 	});
 
